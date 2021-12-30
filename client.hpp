@@ -21,8 +21,6 @@
 /*! \brief Plik nagłówkowy klienta.
  *  \file
  *
- *  Zawiera przykładową implementacje wykorzystania serwera TPK.
- *
  */
 
 #ifndef CLIENT_H

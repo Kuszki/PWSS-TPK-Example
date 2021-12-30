@@ -18,6 +18,11 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/*! \brief Plik źródłowy klienta.
+ *  \file
+ *
+ */
+
 #include "client.hpp"
 
 CLIENT::CLIENT(void)
