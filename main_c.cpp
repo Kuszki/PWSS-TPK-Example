@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  {description}                                                          *
- *  Copyright (C) 2020  Łukasz "Kuszki" Dróżdż  lukasz.kuszki@gmail.com    *
+ *  Simple file transfer project example                                   *
+ *  Copyright (C) 2021  Łukasz "Kuszki" Dróżdż  lukasz.kuszki@gmail.com    *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,24 +18,31 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/*! \brief Plik main klienta.
+ *  \file
+ *
+ *  Zawiera przykładową implementacje wykorzystania klienta TPK.
+ *
+ */
+
 #include "client.hpp"
 
 #include <stdlib.h>
 #include <argp.h>
 
-// Wersja programu dla argp
+//! Wersja programu dla argp
 const char* argp_program_version = "TPK Client 1.0";
 
-// Email zgłoszenia błędu dla argp
+//! Email zgłoszenia błędu dla argp
 const char* argp_program_bug_address = "<lukasz.drozdz@polsl.pl>";
 
-// Opis programu dla argp
+//! Opis programu dla argp
 static char doc[] = "Client program for TPK project";
 
-// Opis parametrów dla argp
+//! Opis parametrów dla argp
 static char args_doc[] = "FILE [LOCALFILE]";
 
-// Struktura parametrów dla argp
+//! Struktura parametrów dla argp
 static struct argp_option options[] =
 {
 	{ "download",	'd',	0,		0, "Download selected file" },
@@ -134,7 +141,7 @@ static error_t parse_opt(int key, char* arg, argp_state* state)
 	return 0;
 }
 
-// Struktura konfiguracji argp
+//! Struktura konfiguracji argp
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
 /*! \brief Funkcja główna programu klienta.

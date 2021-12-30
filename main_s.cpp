@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  {description}                                                          *
- *  Copyright (C) 2020  Łukasz "Kuszki" Dróżdż  lukasz.kuszki@gmail.com    *
+ *  Simple file transfer project example                                   *
+ *  Copyright (C) 2021  Łukasz "Kuszki" Dróżdż  lukasz.kuszki@gmail.com    *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,21 +18,44 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/*! \brief Plik main serwera.
+ *  \file
+ *
+ *  Zawiera przykładową implementacje wykorzystania serwera TPK.
+ *
+ */
+
 #include "server.hpp"
 
+static SERVER* srv; //!< Obiekt serwera.
+
+/*! \brief Funkcja obsługująca sygnały.
+ *  \param [in] signal Kod sygnału.
+ *
+ *  Odbiera sygnał z systemu operacyjnego i zamyka serwer.
+ *
+ */
 void handler(int);
-int main(int, char**);
 
-static SERVER* srv;
+/*! \brief Funkcja główna programu serwera.
+ *  \returns Kod błędu.
+ *  \param [in] argc Liczba argumentów.
+ *  \param [in] argv Lista argumentów.
+ *
+ *  Rejestruje obsługę zdarzeń i uruchamia serwer.
+ *
+ */
+int main(int argc, char* argv[]);
 
-int main(int argc, char* args[])
+int main(int argc, char* argv[])
 {
+	// Utworzenie serwera
 	srv = new SERVER();
 
-	signal(SIGABRT, handler);
-	signal(SIGINT, handler);
-	signal(SIGTERM, handler);
-	signal(SIGABRT, handler);
+	// Rejestracja obsługi sygnałów przez funkcję `handler`
+	signal(SIGABRT, handler); // Błąd krytyczny (np. libc)
+	signal(SIGINT, handler); // Kombinacja CTRL+C w terminalu
+	signal(SIGTERM, handler); // Proces zakonczony (np. kill)
 
 	if (!srv->start()) cout << "FAIL\n";
 	else while (srv->loop());
@@ -44,5 +67,5 @@ int main(int argc, char* args[])
 
 void handler(int signal)
 {
-	srv->end(signal);
+	srv->end(signal); // Zakończ pętlę główną
 }
