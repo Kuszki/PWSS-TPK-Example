@@ -61,4 +61,4 @@ W celu zbudowania projektu należy skonfigurować narzędzia: `CMake`,
 - utworzyć katalog budowania: `mkdir build-TPK-Example`,
 - przejść do katalogu budowania: `cd build-TPK-Example`,
 - skonfigurować projekt: `cmake ../TPK-Example`,
-- zbudować projekt: `cmake --biuld .`.
+- zbudować projekt: `cmake --build .`.
