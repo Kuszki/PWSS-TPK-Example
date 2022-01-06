@@ -310,15 +310,20 @@ SERVER::iterator SERVER::on_download(iterator it)
 		// Pobierz odczytaną liczbę bajtów
 		int rc = file.gcount();
 
-		cout << '(' << rc << " B" << ')' << '\n';
-
 		// Gdy nie odczytano danych - zakończ połaczenie
 		if (rc <= 0) return on_disconnect(it);
 
 		// Wyślij wszystkie odczytane dane
-		// Zamknij połączenie w przypadku błędu
-		if (send_all(it->fd, m_buff, rc));
-		else return on_disconnect(it);
+		int sd = ::send(it->fd, m_buff, rc, 0);
+
+		cout << '(' << sd << '/' << rc << " B" << ')' << '\n';
+
+		// Sprawdź, czy udało się wysłać dane
+		if (sd <= 0) return on_disconnect(it);
+
+		// W przypadku niepełnego wysyłania cofnij
+		// wskaźnik pliku do prawidłowego miejsca
+		else if (sd < rc) file.seekg(sd - rc, ios::cur);
 	}
 	else return on_disconnect(it); // Zamknij połaczenie
 
