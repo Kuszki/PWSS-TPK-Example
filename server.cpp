@@ -258,8 +258,11 @@ SERVER::iterator SERVER::on_header(SERVER::iterator it)
 		// Jeśli komunikat to "DOWNLOAD"
 		else if (strcmp(pos_start, "DOWNLOAD") == 0)
 		{
+			// Pobierz jedynie nazwę pliku - ścieżka zostanie odrzucona
+			const string name = filesystem::path(pos_sp + 1).filename();
+			
 			// Otwórz do odczytu plik o zadanej w parametrze nazwie
-			client.file.open(pos_sp + 1, ios_base::in | ios_base::binary);
+			client.file.open(name, ios_base::in | ios_base::binary);
 
 			// Jeśli nie udało sie otworzyć pliku - zakończ połączenie
 			if (!client.file.is_open()) return on_disconnect(it);
