@@ -1,3 +1,5 @@
+[![CMake Build](https://github.com/Kuszki/PWSS-TPK-Example/actions/workflows/cmake.yml/badge.svg)](https://github.com/Kuszki/PWSS-TPK-Example/actions/workflows/cmake.yml)
+
 # [TPK-Example](https://kuszki.github.io/tpkexample)
 
 Przykładowy projekt prostej wymiany plików. Umozliwia przesyłanie plików
