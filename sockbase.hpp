@@ -54,10 +54,16 @@ class SOCKBASE
 
 	public:
 
+		explicit SOCKBASE(const SOCKBASE&) = delete; //!< Konstruktor kopiujący (usunięty)
+		explicit SOCKBASE(SOCKBASE&&) = delete; //!< Konstruktor przenoszący (usunięty)
+
 		explicit SOCKBASE(void); //!< Domyślny konstruktor.
 		virtual ~SOCKBASE(void); //!< Wirtualny destruktor.
 
 		void close(void); //!< Zamyka gniazdo.
+
+		SOCKBASE& operator= (const SOCKBASE&) = delete; //!< Operator przypisania (kopia, usunięty)
+		SOCKBASE& operator= (SOCKBASE&&) = delete; //!< Operator przypisania (przeniesienie, usunięty)
 
 	protected:
 

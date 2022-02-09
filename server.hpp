@@ -86,7 +86,7 @@ class SERVER : public SOCKBASE
 			CLIENT(CLIENT&& c); //!< Konstruktor przenoszący.
 
 			CLIENT& operator= (CLIENT&) = delete; //!< Operator przypisania (kopia, usunięty)
-			CLIENT& operator= (CLIENT&& c); //!< Operator przypisania (przeniesienie)
+			CLIENT& operator= (CLIENT&& c) = delete; //!< Operator przypisania (przeniesienie, usunięty)
 
 			/*! \brief Zmiana rozmiaru bufora na nagłówek.
 			 *  \see buff.
@@ -116,7 +116,7 @@ class SERVER : public SOCKBASE
 
 	public:
 
-		using iterator = decltype(m_sockets)::iterator; //!< Typ iteratora dla kontenera połączeń.
+		using ITERATOR = vector<pollfd>::iterator; //!< Typ iteratora dla kontenera połączeń.
 
 		explicit SERVER(void); //!< Konstruktor serwera.
 		virtual ~SERVER(void) override; //!< Destruktor serwera.
@@ -134,8 +134,8 @@ class SERVER : public SOCKBASE
 		 *
 		 */
 		bool start(const string& addr = "0.0.0.0",
-				 const uint16_t port = 8080,
-				 const int queue = 10);
+		           const uint16_t port = 8080,
+		           const int queue = 10);
 
 		/*! \brief Zatrzymuje serwer.
 		 *  \see start.
@@ -192,7 +192,7 @@ class SERVER : public SOCKBASE
 		 *  Pobiera fragment nagłówka, przetwarza go i w razie potrzeby zmienia stan połaczenia.
 		 *
 		 */
-		iterator on_header(iterator it);
+		ITERATOR on_header(ITERATOR it);
 
 		/*! \brief Obsługa wysyłania pliku.
 		 *  \see loop.
@@ -202,7 +202,7 @@ class SERVER : public SOCKBASE
 		 *  Pobiera fragment danych od klienta, zapisuje go i w razie potrzeby zmienia stan połaczenia.
 		 *
 		 */
-		iterator on_upload(iterator it);
+		ITERATOR on_upload(ITERATOR it);
 
 		/*! \brief Obsługa pobierania pliku.
 		 *  \see loop.
@@ -212,7 +212,7 @@ class SERVER : public SOCKBASE
 		 *  Wysyła fragment danych do klienta z odczytanego pliku i w razie potrzeby zmienia stan połaczenia.
 		 *
 		 */
-		iterator on_download(iterator it);
+		ITERATOR on_download(ITERATOR it);
 
 		/*! \brief Obsługa rozłączenia klienta.
 		 *  \see loop.
@@ -222,7 +222,7 @@ class SERVER : public SOCKBASE
 		 *  Zamyka połaczenie i zwalnia związane z nim zasoby.
 		 *
 		 */
-		iterator on_disconnect(iterator it);
+		ITERATOR on_disconnect(ITERATOR it);
 
 };
 

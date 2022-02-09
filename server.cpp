@@ -92,9 +92,9 @@ bool SERVER::start(const string& addr, const uint16_t port, const int queue)
 	m_sock = sock;
 	m_sockets.push_back(
 	{
-		sock,
-		POLLIN,
-		0
+	     sock,
+	     POLLIN,
+	     0
 	});
 
 	return true;
@@ -183,13 +183,13 @@ bool SERVER::is_started(void) const
 void SERVER::on_accept(int sock)
 {
 	cout << "Accepted client:\t" << sock << '\t'
-		<< '(' << get_name(sock) << ')' << '\n';
+	     << '(' << get_name(sock) << ')' << '\n';
 
 	m_sockets.push_back({ sock, POLLIN | POLLHUP, 0 }); // Dodaj socket do listy `poll`
 	m_clients.insert({ sock, sock }); // Dodaj klienta do listy klientów
 }
 
-SERVER::iterator SERVER::on_header(SERVER::iterator it)
+SERVER::ITERATOR SERVER::on_header(SERVER::ITERATOR it)
 {
 	auto& client = m_clients[it->fd]; // Obiekt bieżącego klienta
 
@@ -206,9 +206,9 @@ SERVER::iterator SERVER::on_header(SERVER::iterator it)
 	// Dopisz odebrane dane do bufora, przy czym pobierz maksymalnie
 	// tyle bajtów danych, ile jest wolnego miejsca w buforze
 	ssize_t rec = ::recv(it->fd,
-					 client.buff + client.size,
-					 client.cap - client.size,
-					 0);
+	                     client.buff + client.size,
+	                     client.cap - client.size,
+	                     0);
 
 	cout << '(' << rec << " B" << ')' << '\n';
 
@@ -232,7 +232,7 @@ SERVER::iterator SERVER::on_header(SERVER::iterator it)
 		else *pos_nl = *pos_sp = '\0';
 
 		cout << "Completed header for:\t" << it->fd << '\t'
-			<< '(' << pos_start << ':' << pos_sp+1 << ')' << '\n';
+		     << '(' << pos_start << ':' << pos_sp+1 << ')' << '\n';
 
 		// Oblicz ile danych znajduje się za nagłówkiem
 		// ilość = rozmiar_danych - pozycja_nl - pozycja_start - 1
@@ -260,7 +260,7 @@ SERVER::iterator SERVER::on_header(SERVER::iterator it)
 		{
 			// Pobierz jedynie nazwę pliku - ścieżka zostanie odrzucona
 			const string name = filesystem::path(pos_sp + 1).filename();
-			
+
 			// Otwórz do odczytu plik o zadanej w parametrze nazwie
 			client.file.open(name, ios_base::in | ios_base::binary);
 
@@ -280,7 +280,7 @@ SERVER::iterator SERVER::on_header(SERVER::iterator it)
 	return ++it; // Zwróć iterator na kolejne połączenie
 }
 
-SERVER::iterator SERVER::on_upload(iterator it)
+SERVER::ITERATOR SERVER::on_upload(ITERATOR it)
 {
 	cout << "Recv file chunk from:\t" << it->fd << '\t';
 
@@ -297,7 +297,7 @@ SERVER::iterator SERVER::on_upload(iterator it)
 	return ++it; // Zwróć iterator na kolejne połączenie
 }
 
-SERVER::iterator SERVER::on_download(iterator it)
+SERVER::ITERATOR SERVER::on_download(ITERATOR it)
 {
 	auto& file = m_clients[it->fd].file; // Plik związany z klientem
 
@@ -333,10 +333,10 @@ SERVER::iterator SERVER::on_download(iterator it)
 	return ++it; // Zwróć iterator na kolejne połączenie
 }
 
-SERVER::iterator SERVER::on_disconnect(SERVER::iterator it)
+SERVER::ITERATOR SERVER::on_disconnect(SERVER::ITERATOR it)
 {
 	cout << "Disconnecting client:\t" << it->fd << '\t'
-		<< '(' << get_name(it->fd) << ')' << '\n';
+	     << '(' << get_name(it->fd) << ')' << '\n';
 
 	// Usuń obiekt klienta z mapy
 	m_clients.erase(it->fd);
@@ -365,13 +365,6 @@ SERVER::CLIENT::~CLIENT(void)
 
 SERVER::CLIENT::CLIENT(CLIENT&& c)
 {
-	*this = move(c);
-}
-
-SERVER::CLIENT& SERVER::CLIENT::operator=(CLIENT&& c)
-{
-	if (this == &c) return *this;
-
 	file = move(c.file); // Przenieś obiekt reprezentujący plik
 
 	state = c.state; // Skopiuj stan
@@ -382,8 +375,6 @@ SERVER::CLIENT& SERVER::CLIENT::operator=(CLIENT&& c)
 
 	c.buff = nullptr; // Wyzeruj wskaźnik na bufor (został przeniesiony)
 	c.sock = 0; // Wyzeruj deskryptor gniazda (zostao przeniesione)
-
-	return *this;
 }
 
 char* SERVER::CLIENT::resize(size_t new_size)
