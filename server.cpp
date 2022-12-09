@@ -379,18 +379,25 @@ SERVER::CLIENT::CLIENT(CLIENT&& c)
 
 char* SERVER::CLIENT::resize(size_t new_size)
 {
-	size = min(size, new_size); // Oblicz nowy rozmiar danych
-	cap = new_size; // Zapisz nową pojemność bufora
-
 	char* cpy = buff; // Skopiuj wskaźnik na dane (przyda się w przypadku błędu)
-	buff = (char*) ::realloc(buff, new_size); // Realokuj bufor
+	
+	// Gdy klient przekroczy dozwolony rozmiar bufora
+	if (new_size > 1024) buff = nullptr; // Nie alokuj więcej danych
+	else
+	{
+		size = min(size, new_size); // Oblicz nowy rozmiar danych
+		cap = new_size; // Zapisz nową pojemność bufora
 
+		buff = (char*) ::realloc(buff, new_size); // Realokuj bufor
+	}
+	
 	// Jesli alokacja się nie udała
 	if (!buff)
 	{
 		size = cap = 0; // Zapisz informacje o braku danych
 		buff = nullptr; // Wyzeruj wskaźnik na bufor
-		::free(cpy); // Zwolnij stary bufor
+		
+		if (cpy) ::free(cpy); // Zwolnij stary bufor
 	}
 
 	return buff; // Zwróć wskaźnik na nowy bufor
