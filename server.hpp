@@ -50,7 +50,7 @@ class SERVER : public SOCKBASE
 
 		/*! \brief Enumeracja maszyny stanów.
 		 *
-		 *  Określa aktualny stan połaczenia obsługiwanego przez serwer.
+		 *  Określa aktualny stan połączenia obsługiwanego przez serwer.
 		 *
 		 */
 		enum class STATE
@@ -82,7 +82,7 @@ class SERVER : public SOCKBASE
 			CLIENT(void); //!< Domyślny konstruktor.
 			~CLIENT(void); //!< Destruktor klienta.
 
-			CLIENT(const CLIENT&) = delete; //!< Konstruktor kopiujacy (usunięty).
+			CLIENT(const CLIENT&) = delete; //!< Konstruktor kopiujący (usunięty).
 			CLIENT(CLIENT&& c); //!< Konstruktor przenoszący.
 
 			CLIENT& operator= (CLIENT&) = delete; //!< Operator przypisania (kopia, usunięty)
@@ -94,7 +94,7 @@ class SERVER : public SOCKBASE
 			 *  \param [in] new_size Nowy rozmiar bufora.
 			 *
 			 *  Zmienia rozmiar bufora na zadany. W przypadku mniejszego rozmiaru
-			 *  dane zostaną uciete. W przypadku niepowodzenia zwraca pusty wskaźnik.
+			 *  dane zostaną ucięte. W przypadku niepowodzenia zwraca pusty wskaźnik.
 			 *
 			 */
 			char* resize(size_t new_size);
@@ -126,7 +126,7 @@ class SERVER : public SOCKBASE
 		 *  \returns Powodzenie operacji.
 		 *  \param [in] addr Adres do nasłuchiwania.
 		 *  \param [in] port Port do nasłuchiwania.
-		 *  \param [in] queue Liczba klientów do skolejkowania.
+		 *  \param [in] queue Liczba klientów do kolejkowania.
 		 *
 		 *  Rozpoczyna pracę serwera ustalając zadane parametry pracy. W przypadku niepowodzenia
 		 *  zwraca wartość `false`. Podczas startu wyświetlane są komunikaty informujące o
@@ -155,7 +155,7 @@ class SERVER : public SOCKBASE
 
 		/*! \brief Pętla serwera.
 		 *  \see start.
-		 *  \returns `false` gdy odebrano komunikat o zamknieciu serwera, `true` w przeciwnym razie.
+		 *  \returns `false` gdy odebrano komunikat o zamknięciu serwera, `true` w przeciwnym razie.
 		 *  \param [in] timeout Czas oczekiwania na poll.
 		 *
 		 *  Wykonuje obsługę połączeń oczekując określony czas na aktywność.
@@ -189,7 +189,7 @@ class SERVER : public SOCKBASE
 		 *  \returns Iterator kolejnego klienta.
 		 *  \param [in] it Iterator obsługiwanego klienta.
 		 *
-		 *  Pobiera fragment nagłówka, przetwarza go i w razie potrzeby zmienia stan połaczenia.
+		 *  Pobiera fragment nagłówka, przetwarza go i w razie potrzeby zmienia stan połączenia.
 		 *
 		 */
 		ITERATOR on_header(ITERATOR it);
@@ -199,7 +199,7 @@ class SERVER : public SOCKBASE
 		 *  \returns Iterator kolejnego klienta.
 		 *  \param [in] it Iterator obsługiwanego klienta.
 		 *
-		 *  Pobiera fragment danych od klienta, zapisuje go i w razie potrzeby zmienia stan połaczenia.
+		 *  Pobiera fragment danych od klienta, zapisuje go i w razie potrzeby zmienia stan połączenia.
 		 *
 		 */
 		ITERATOR on_upload(ITERATOR it);
@@ -219,7 +219,7 @@ class SERVER : public SOCKBASE
 		 *  \returns Iterator kolejnego klienta.
 		 *  \param [in] it Iterator obsługiwanego klienta.
 		 *
-		 *  Zamyka połaczenie i zwalnia związane z nim zasoby.
+		 *  Zamyka połączenie i zwalnia związane z nim zasoby.
 		 *
 		 */
 		ITERATOR on_disconnect(ITERATOR it);

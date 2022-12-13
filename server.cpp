@@ -50,7 +50,7 @@ bool SERVER::start(const string& addr, const uint16_t port, const int queue)
 	sockaddr_in sin;
 	int res;
 
-	// Suspełnij strukturę adresu
+	// Uzupełnij strukturę adresu
 	memset(&sin, 0, sizeof(sin));
 	sin.sin_port = ::htons(port);
 	sin.sin_family = AF_INET;
@@ -112,7 +112,7 @@ void SERVER::stop(void)
 	cout << "OK\n";
 
 	// Wszystkie połączenia klientów zostaną
-	// automatycznie zamkniete. Zajmie się
+	// automatycznie zamknięte. Zajmie się
 	// tym destruktor struktury CLIENT::~CLIENT()
 }
 
@@ -134,7 +134,7 @@ bool SERVER::loop(int timeout)
 		// Jeśli serwer jest gotowy do odczytu (czeka nowy klient)
 		if (serv.revents & POLLIN)
 		{
-			sockaddr_in sin; // Struktora pomocnicza na adres
+			sockaddr_in sin; // Struktura pomocnicza na adres
 			socklen_t size = sizeof(sin); // Długość adresu
 
 			// Akceptuj nowe połączenie do serwera
@@ -164,7 +164,7 @@ bool SERVER::loop(int timeout)
 			    i->revents & POLLIN) i = on_upload(i);
 
 			// Jeśli połączenie jest gotowe do zapisu i dostępne są dane w pliku,
-			// odczytaj kolejny fragment danych i wyślij go do oczekujacego klienta
+			// odczytaj kolejny fragment danych i wyślij go do oczekującego klienta
 			else if (m_clients[i->fd].state == STATE::Downloading &&
 			    i->revents & POLLOUT) i = on_download(i);
 
@@ -198,7 +198,7 @@ SERVER::ITERATOR SERVER::on_header(SERVER::ITERATOR it)
 	if (client.cap - client.size < 32)
 		client.resize(client.cap + 64);
 
-	// Jeśli nie istnieje poprawny bufor na nagłówek - zakończ połaczenie
+	// Jeśli nie istnieje poprawny bufor na nagłówek - zakończ połączenie
 	if (!client.buff) return on_disconnect(it);
 
 	cout << "Recv header chunk from:\t" << it->fd << '\t';
@@ -212,21 +212,21 @@ SERVER::ITERATOR SERVER::on_header(SERVER::ITERATOR it)
 
 	cout << '(' << rec << " B" << ')' << '\n';
 
-	// Jeśli wystąpił błąd lib zamknieto połaczenie - zakończ połaczenie
-	// W przeciwntm razie zaktualizuj rozmiar danych w buforze
+	// Jeśli wystąpił błąd lib zamknięto połączenie - zakończ połączenie
+	// W przeciwnym razie zaktualizuj rozmiar danych w buforze
 	if (rec <= 0) return on_disconnect(it);
 	else client.size += rec;
 
 	const auto pos_start = client.buff; // Początek bufora
 	const auto pos_end = pos_start + client.size; // Koniec bufora
-	const auto pos_nl = find(client.buff, pos_end, '\n'); // Pozycja nowej linii
+	const auto pos_nl = find(pos_start, pos_end, '\n'); // Pozycja nowej linii
 
 	// Jeśli znaleziono w buforze znak nowej linii
 	if (pos_nl != pos_end)
 	{
 		const auto pos_sp = find(pos_start, pos_nl, ' '); // Pozycja spacji
 
-		// Jesli nie znaleziono spacji (brak parametru) - zakończ połączenie
+		// Jeśli nie znaleziono spacji (brak parametru) - zakończ połączenie
 		// W przeciwnym razie zamień spację i znak nowej linii na '\0'
 		if (pos_sp == pos_nl) return on_disconnect(it);
 		else *pos_nl = *pos_sp = '\0';
@@ -247,8 +247,8 @@ SERVER::ITERATOR SERVER::on_header(SERVER::ITERATOR it)
 			// Otwórz do zapisu plik o zadanej w parametrze nazwie i utnij go
 			client.file.open(name, ios_base::out | ios_base::trunc | ios_base::binary);
 
-			// Jeśli nie udało sie otworzyć pliku - zakończ połączenie
-			// W przeciwnym razie zapisz dane za nagłówkiem (jesli są)
+			// Jeśli nie udało się otworzyć pliku - zakończ połączenie
+			// W przeciwnym razie zapisz dane za nagłówkiem (jeśli są)
 			if (!client.file.is_open()) return on_disconnect(it);
 			else if (left > 0) client.file.write(pos_nl + 1, left);
 
@@ -264,7 +264,7 @@ SERVER::ITERATOR SERVER::on_header(SERVER::ITERATOR it)
 			// Otwórz do odczytu plik o zadanej w parametrze nazwie
 			client.file.open(name, ios_base::in | ios_base::binary);
 
-			// Jeśli nie udało sie otworzyć pliku - zakończ połączenie
+			// Jeśli nie udało się otworzyć pliku - zakończ połączenie
 			if (!client.file.is_open()) return on_disconnect(it);
 
 			client.state = STATE::Downloading; // Zmień stan na wysyłanie pliku.
@@ -289,7 +289,7 @@ SERVER::ITERATOR SERVER::on_upload(ITERATOR it)
 
 	cout << '(' << rec << " B" << ')' << '\n';
 
-	// Jeśli nie udało sie odczytać żadnych danych - zakończ połączenie
+	// Jeśli nie udało się odczytać żadnych danych - zakończ połączenie
 	// W przeciwnym razie zapisz dane do pliku związanego z klientem
 	if (rec <= 0) return on_disconnect(it);
 	else m_clients[it->fd].file.write(m_buff, rec);
@@ -302,7 +302,7 @@ SERVER::ITERATOR SERVER::on_download(ITERATOR it)
 	auto& file = m_clients[it->fd].file; // Plik związany z klientem
 
 	// Jeśli są jeszcze dane do odczytu to je obsłuż
-	// Jesli nie - zamknij połaczenie
+	// Jeśli nie - zamknij połączenie
 	if (!file.eof())
 	{
 		cout << "Sending file chunk to:\t" << it->fd << '\t';
@@ -313,7 +313,7 @@ SERVER::ITERATOR SERVER::on_download(ITERATOR it)
 		// Pobierz odczytaną liczbę bajtów
 		int rc = file.gcount();
 
-		// Gdy nie odczytano danych - zakończ połaczenie
+		// Gdy nie odczytano danych - zakończ połączenie
 		if (rc <= 0) return on_disconnect(it);
 
 		// Wyślij wszystkie odczytane dane
@@ -328,7 +328,7 @@ SERVER::ITERATOR SERVER::on_download(ITERATOR it)
 		// wskaźnik pliku do prawidłowego miejsca
 		else if (sd < rc) file.seekg(sd - rc, ios::cur);
 	}
-	else return on_disconnect(it); // Zamknij połaczenie
+	else return on_disconnect(it); // Zamknij połączenie
 
 	return ++it; // Zwróć iterator na kolejne połączenie
 }
@@ -360,7 +360,7 @@ SERVER::CLIENT::CLIENT(void)
 SERVER::CLIENT::~CLIENT(void)
 {
 	if (buff) ::free(buff); // Jeśli bufor istnieje - zwolnij go
-	if (sock) ::close(sock); // Jesli gniazdo jest aktywne - zamknij je
+	if (sock) ::close(sock); // Jeśli gniazdo jest aktywne - zamknij je
 }
 
 SERVER::CLIENT::CLIENT(CLIENT&& c)
@@ -374,7 +374,7 @@ SERVER::CLIENT::CLIENT(CLIENT&& c)
 	sock = c.sock; // Skopiuj deskryptor gniazda
 
 	c.buff = nullptr; // Wyzeruj wskaźnik na bufor (został przeniesiony)
-	c.sock = 0; // Wyzeruj deskryptor gniazda (zostao przeniesione)
+	c.sock = 0; // Wyzeruj deskryptor gniazda (zostało przeniesione)
 }
 
 char* SERVER::CLIENT::resize(size_t new_size)

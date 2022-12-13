@@ -52,7 +52,7 @@ static struct argp_option options[] =
 	{ 0 }
 };
 
-/*! \brief Struktura opisujaca argumenty.
+/*! \brief Struktura opisująca argumenty.
  *  \see parse_opt.
  *
  *  Przechowuje wartości wszystkich argumentów programu w wygodnej do użytku formie.

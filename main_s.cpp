@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 	// Rejestracja obsługi sygnałów przez funkcję `handler`
 	signal(SIGABRT, handler); // Błąd krytyczny (np. libc)
 	signal(SIGINT, handler); // Kombinacja CTRL+C w terminalu
-	signal(SIGTERM, handler); // Proces zakonczony (np. kill)
+	signal(SIGTERM, handler); // Proces zakończony (np. kill)
 
 	if (!srv->start()) cout << "FAIL\n";
 	else while (srv->loop());

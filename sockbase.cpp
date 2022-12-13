@@ -54,7 +54,7 @@ bool SOCKBASE::send_all(int sock, const char* data, size_t size)
 		if (sc <= 0) return false;
 		else
 		{
-			data += sc; // Przesuń wskażnik na dane
+			data += sc; // Przesuń wskaźnik na dane
 			size -= sc; // Zmniejsz liczbę pozostałych danych
 		}
 	}

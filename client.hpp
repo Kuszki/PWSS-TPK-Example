@@ -51,7 +51,7 @@ class CLIENT : public SOCKBASE
 		explicit CLIENT(void); //!< Konstruktor domyślny
 		virtual ~CLIENT(void) override; //!< Wirtualny destruktor
 
-		/*! \brief Inicjacja połaczenia.
+		/*! \brief Inicjacja połączenia.
 		 *  \see disconnect.
 		 *  \returns Powodzenie operacji.
 		 *  \param [in] addr Adres serwera.
@@ -79,7 +79,7 @@ class CLIENT : public SOCKBASE
 		 *  \param [in] dest Lokalna ścieżka pliku.
 		 *
 		 *  Pobiera plik z połączonego serwera i zapisuje we wskazane miejsce w
-		 *  systemie plików. Ze wskazanaej ścieżki do pliku źródłowego na serwerze
+		 *  systemie plików. Ze wskazanej ścieżki do pliku źródłowego na serwerze
 		 *  pozyskiwana jest jedynie nazwa pliku.
 		 *
 		 */
@@ -93,7 +93,7 @@ class CLIENT : public SOCKBASE
 		 *  \param [in] src Lokalna ścieżka pliku.
 		 *
 		 *  Wysyła plik do połączonego serwera odczytany z wskazanego miejsca w
-		 *  systemie plików. Ze wskazanaej ścieżki do pliku docelowego na serwerze
+		 *  systemie plików. Ze wskazanej ścieżki do pliku docelowego na serwerze
 		 *  pozyskiwana jest jedynie nazwa pliku.
 		 *
 		 */
@@ -102,7 +102,7 @@ class CLIENT : public SOCKBASE
 
 		/*! \brief Test nawiązania połączenia.
 		 *  \see connect, disconnect.
-		 *  \returns `true` gdy połaczenie jest aktywne, `false` w przeciwnym razie.
+		 *  \returns `true` gdy połączenie jest aktywne, `false` w przeciwnym razie.
 		 *  \warning W przypadku gdy serwer zamknie połączenie status zmieni się dopiero po pierwszej operacji.
 		 *
 		 *  Sprawdza, czy zostało nawiązane połączenie z serwerem.

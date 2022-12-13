@@ -71,14 +71,14 @@ bool CLIENT::connect(const string& addr, const uint16_t port)
 			continue; // do kolejnego elementu
 		}
 
-		// Spróbuj nawiązać połaczenie
+		// Spróbuj nawiązać połączenie
 		if (::connect(sockfd,
 				    p->ai_addr,
 				    p->ai_addrlen) == -1)
 		{
 			::close(sockfd); // Gdy błąd - zamknij
 			sockfd = 0; // gniazdo po czym przejdź
-			continue; // dalej do kolejnego elemenut
+			continue; // dalej do kolejnego elementu
 		}
 		else break; // Gdy wszystko OK pomiń resztę elementów
 	}
@@ -129,7 +129,7 @@ int CLIENT::download(const string& path, const string& dest)
 		}
 
 		// W przypadku błędu podczas odbierania lub zamknięcia
-		// połaczenia przez serwer - rozłącz się
+		// połączenia przez serwer - rozłącz się
 		if (rec <= 0) disconnect();
 	}
 
@@ -173,7 +173,7 @@ int CLIENT::upload(const string& path, const string& src)
 
 			if (chunk <= 0) break; // Gdy nic nie odczytano przerwij pętlę
 			else if (send_all(m_sock, m_buff, chunk)) count += chunk;
-			else break; // Gdy nue udało się wysłać danych przerwij pętlę
+			else break; // Gdy nie udało się wysłać danych przerwij pętlę
 		}
 	}
 
