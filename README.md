@@ -2,7 +2,7 @@
 
 # [TPK-Example](https://kuszki.github.io/tpkexample)
 
-Przykładowy projekt prostej wymiany plików. Umozliwia przesyłanie plików
+Przykładowy projekt prostej wymiany plików. Umożliwia przesyłanie plików
 pomiędzy klientem i serwerem w dwie strony. Jeden transfer pliku
 realizowany jest w jednej sesji. Po zakończeniu transferu połączenie
 zostaje zamknięte.
@@ -17,14 +17,14 @@ wykorzystania gniazd sieciowych oraz biblioteki standardowej C++.
 ## Biblioteka TPK
 
 Biblioteka implementuje działanie klienta i serwera dostarczając dwa
-obiekty umozliwiajace wykorzystanie funkcji projektu.
+obiekty umożliwiające wykorzystanie funkcji projektu.
 
 Serwer umożliwia obsługę wielu połączeń jednocześnie wykorzystując
 funkcję `poll`. Istnieje możliwość zastosowania serwera w wątku
 realizującym dodatkowe zadania poprzez wywoływanie metody `loop`
 pomiędzy pozostałymi zadaniami.
 
-Klient umozliwia połaczenie z serwerem i transfer pliku. Przed każdym
+Klient umożliwia połączenie z serwerem i transfer pliku. Przed każdym
 transferem należy połączyć się z serwerem. Na końcu transferu połączenie
 jest automatycznie zamykane.
 
@@ -32,7 +32,7 @@ jest automatycznie zamykane.
 
 Przykładowe wykorzystanie serwera. W przykładzie pokazano jak obsłużyć
 poprawnie zdarzenie zamknięcia programu (SIGTERM, SIGHUP itd.). Serwer
-działa w nieskończonej pętli do czasu otrzymania zdarzenia zamykajacego
+działa w nieskończonej pętli do czasu otrzymania zdarzenia zamykającego
 program. Po otrzymaniu zdarzenia serwer dostaje informacje by nie
 obsługiwać więcej połączeń i zakończyć działanie.
 
@@ -52,7 +52,8 @@ parametrem `--help` lub `-?`.
 Do projektu dołączono plik `Doxyfile` służący do wygenerowania
 dokumentacji programem `Doxygen`. Wszystkie pliki projektu zawierają
 odpowiednio przygotowane komentarze na podstawie których generowana
-jest dokumentacja w formacie `HTML` oraz `PDF`.
+jest dokumentacja w formacie `HTML` oraz `PDF`. Link do dokumentacji
+znajduje się [tutaj](https://kuszki.github.io/tpkexample).
 
 ## Budowanie
 
