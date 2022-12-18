@@ -91,11 +91,11 @@ bool SERVER::start(const string& addr, const uint16_t port, const int queue)
 	m_terminate = false;
 	m_sock = sock;
 	m_sockets.push_back(
-				{
-					sock,
-					POLLIN,
-					0
-				});
+	{
+		sock,
+		POLLIN,
+		0
+	});
 
 	return true;
 }
