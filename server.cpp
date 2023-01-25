@@ -170,9 +170,10 @@ bool SERVER::loop(int timeout)
 
 			else ++i; // Jeśli nie trzeba podejmować żadnej akcji przejdź do kolejnego klienta
 		}
-	}
 
-	return !m_terminate; // Zwróć stan serwera - `false` gdy trzeba zakończyć serwer
+		return !m_terminate; // Zwróć stan serwera - `false` gdy trzeba zakończyć serwer
+	}
+	else return false; // Gdy `poll` zwróci błąd lub przekroczono czas oczekiwania
 }
 
 bool SERVER::is_started(void) const
